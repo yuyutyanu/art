@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js"></script>
+</head>
+<body>
+<div id="stage"></div>
+
+<script>
+  const app = new Vue({
+    el: '#app',
+    data(){
+      return{
+        scene: '',
+        box:'',
+        camera: '',
+        light: '',
+        renderer: '',
+        width: '960',
+        height: '800'
+      }
+    },
+    created(){
+        // scene ステージ
+        this.scene = new THREE.Scene();
+
+        // mesh 物体
+        this.box = new THREE.Mesh(
+          new THREE.BoxGeometry(100, 100, 100), // geometry 形状
+          new THREE.MeshPhongMaterial({color: 0xffffff}) // material 材質、色
+        );
+        this.box.position.set(0, 0, 0);
+        this.scene.add(this.box);
+
+        // light
+        this.light = new THREE.DirectionalLight(0xffffff, 1);
+        this.light.position.set(0, 100, 200);
+        this.scene.add(this.light);
+
+        // camera
+        this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 1, 1000);
+        this.camera.position.set(190, 250, 200);
+        this.camera.lookAt(this.scene.position);
+
+        // renderer
+        this.renderer = new THREE.WebGLRenderer({ antialias: true });
+        this.renderer.setSize(this.width, this.height);
+        this.renderer.setClearColor(0xf8f8f8);
+        document.getElementById('stage').appendChild(this.renderer.domElement);
+        this.renderer.render(this.scene, this.camera);
+    }
+  })
+</script>
+
+<style>
+  #stage{
+    width:960px;
+    height:100vh;
+    margin:0 auto;
+  }
+</style>
+</body>
+</html>
