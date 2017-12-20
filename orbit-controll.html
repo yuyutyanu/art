@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Title</title>
   <script src="three.min.js"></script>
+  <script src="orbitcontrol.js"></script>
 </head>
 <body>
 
@@ -24,14 +25,12 @@
   const sphere = new THREE.Mesh(geometry,material)
   scene.add(sphere)
 
-  //light
-  const directionLight = new THREE.DirectionalLight(0xffffff)
-  directionLight.position.set(0,100,200)
-  scene.add(directionLight)
-
   //camera
   const camera = new THREE.PerspectiveCamera(45,width/height)
   camera.position.set(0,0,1000)
+  const controls = new THREE.OrbitControls(camera);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.2;
   camera.lookAt(new THREE.Vector3(0,0,0))
 
   //renderer
@@ -44,7 +43,7 @@
   //animation
   const animate = () => {
     requestAnimationFrame(animate)
-    sphere.rotation.y += 0.01
+    controls.update();
     renderer.render(scene,camera)
   }
   animate()
