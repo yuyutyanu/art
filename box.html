@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <script src="three.min.js"></script>
+  <script>
+    const init = () => {
+      const width = 960
+      const height = 540
+
+      //renderer
+      const renderer = new THREE.WebGLRenderer({
+        canvas: document.querySelector('#stage')
+      })
+      renderer.setPixelRatio(window.devicePixelRatio)
+      renderer.setSize(width, height)
+
+      // 3d空間
+      const scene = new THREE.Scene()
+
+      //camera
+      const camera = new THREE.PerspectiveCamera(45, width / height)//画角、アスペクト比
+      camera.position.set(0,0,1000)
+
+      // 箱
+      const geometry = new THREE.BoxGeometry(300, 300, 300) //幅、高さ、奥行き  // 形状
+      const material = new THREE.MeshNormalMaterial() //質感
+      const box = new THREE.Mesh(geometry, material)
+      scene.add(box)
+
+      //animation
+      const animate = () => {
+        requestAnimationFrame(animate)
+        box.rotation.y += 0.01
+        box.rotation.x += 0.01
+        renderer.render(scene,camera)
+      }
+      animate()
+    }
+    window.addEventListener('load', init)
+  </script>
+</head>
+<body>
+<canvas id="stage">
+
+</canvas>
+
+</body>
+</html>

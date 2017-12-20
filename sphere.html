@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="three.min.js"></script>
+</head>
+<body>
+
+<canvas id="stage"></canvas>
+<script>
+  const width = 960
+  const height = 540
+  //scene
+  const scene = new THREE.Scene()
+
+  //mesh
+  const geometry = new THREE.SphereGeometry(300, 5, 4)
+//  const loader = new THREE.TextureLoader()
+//  const texture = loader.load('earth.jpg')
+  const material = new THREE.MeshStandardMaterial({
+//    map: texture
+    color: 0x2c3e50,
+    wireframe:true
+  })
+  const sphere = new THREE.Mesh(geometry,material)
+  scene.add(sphere)
+
+  //light
+  const directionLight = new THREE.DirectionalLight(0xffffff)
+  directionLight.position.set(0,100,200)
+  scene.add(directionLight)
+
+  //camera
+  const camera = new THREE.PerspectiveCamera(45,width/height)
+  camera.position.set(0,0,1000)
+
+  //renderer
+  const renderer = new THREE.WebGLRenderer({
+    canvas: document.querySelector('#stage')
+  })
+  renderer.setSize(width,height)
+  renderer.setClearColor(0xFFFFFF);
+
+  //animation
+  const animate = () => {
+    requestAnimationFrame(animate)
+    sphere.rotation.y += 0.01
+    renderer.render(scene,camera)
+  }
+  animate()
+</script>
+</body>
+</html>
